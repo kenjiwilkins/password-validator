@@ -1,4 +1,4 @@
-import { isLongEnough, hasLowerCase, hasUpperCase } from "../index";
+import { isLongEnough, hasLowerCase, hasUpperCase, hasNumber } from "../index";
 
 function generatePw(length: number): string {
   var result = "";
@@ -25,4 +25,9 @@ test("hasLowerCase function", () => {
 test("hasUpperCase function", () => {
   expect(hasUpperCase("WERQAZ987")).toBeTruthy();
   expect(hasUpperCase("5347990f9")).toBeFalsy();
+});
+
+test("hasNumber function", () => {
+  expect(hasNumber("WEROIUFDS")).toBeFalsy();
+  expect(hasNumber("8feuisfah4")).toBeTruthy();
 });
