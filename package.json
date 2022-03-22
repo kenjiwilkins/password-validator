@@ -1,0 +1,22 @@
+{
+  "name": "pw-validator",
+  "version": "1.0.0",
+  "description": "Password validation setup handler and validator",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "password"
+  ],
+  "author": "Kenji Wilkins",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "jest": "^27.5.1",
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.7.0",
+    "tsc": "^2.0.4",
+    "typescript": "^4.6.2"
+  }
+}
