@@ -3,16 +3,18 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.2
 
-jobs:
-  example-job:
-    docker:
-      # replace with your preferred image
-      - image: cimg/base:stable
-    steps:
-      - node/install-yarn
-
 workflows:
   example-workflow:
     jobs:
-      - node/test:
-          run-command: yarn test
+      - restore_cache:
+          name: Yarn パッケージのキャッシュの復元
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: 依存関係のインストール
+          command: yarn install --immutable
+      - save_cache:
+          name: Yarn パッケージのキャッシュの保存
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
