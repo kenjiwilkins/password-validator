@@ -9,6 +9,7 @@ jobs:
     steps:
       - checkout
       - run: yarn
+      - run: yarn lint
       - run: yarn test
       - slack/notify:
           channel: github_notification
