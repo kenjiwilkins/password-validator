@@ -3,9 +3,16 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.2
 
+jobs:
+  example-job:
+    docker:
+      # replace with your preferred image
+      - image: cimg/base:stable
+    steps:
+      - node/install-yarn
+
 workflows:
-    example-workflow:
-      jobs:
-        - node/test:
-            override-ci-command: yarn install --frozen-lockfile 
-            run-command: yarn test 
+  example-workflow:
+    jobs:
+      - node/test:
+          run-command: yarn test
