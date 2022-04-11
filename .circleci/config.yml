@@ -1,0 +1,13 @@
+version: 2.1
+
+orbs:
+  node: circle-ci/node@4.7
+
+workflows:
+  ci:
+    jobs:
+      build:
+        steps:
+          - run:
+            name: Test
+            command: yarn test
