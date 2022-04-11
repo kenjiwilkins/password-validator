@@ -1,6 +1,9 @@
+import emoji from "node-emoji";
+
 interface PasswordConfig {
   minLength: number;
   maxLength: number;
+  blacklist?: string[];
   noDoB?: boolean;
   noUserName?: boolean;
   noSpecialCharacters?: boolean;
@@ -14,11 +17,41 @@ type BlackList = string[];
 const defaultPasswordConfig: PasswordConfig = {
   minLength: 4,
   maxLength: 24,
+  noDoB: true,
+  noUserName: true,
 };
 
-export function getStrength(pw: string, config: PasswordConfig): number {
-  let strength = 0;
-  return strength;
+interface validationResult {
+  longerThanMinLength?: boolean;
+  shorterThanMaxLength?: boolean;
+}
+
+/**
+ *
+ * @param pw
+ * @param config
+ * @returns
+ */
+export function validate(
+  pw: string,
+  config = defaultPasswordConfig
+): validationResult {
+  const result: validationResult = {};
+  if (config.minLength) {
+    if (isLongEnough(pw, config.minLength)) {
+      result.longerThanMinLength = true;
+    } else {
+      result.longerThanMinLength = false;
+    }
+  }
+  if (config.maxLength) {
+    if (isShortEnough(pw, config.maxLength)) {
+      result.shorterThanMaxLength = true;
+    } else {
+      result.shorterThanMaxLength = false;
+    }
+  }
+  return result;
 }
 
 /**
@@ -51,17 +84,22 @@ export function isLongEnough(pw: string, border: number): boolean {
 }
 
 /**
+ *
+ * @param pw
+ * @param border
+ * @returns
+ */
+export function isShortEnough(pw: string, border: number): boolean {
+  return pw.length <= border;
+}
+
+/**
  * Determine whether password holds at least one lowercase character
  * @param {string} pw password to validate
  * @returns {boolean} true when pw contains lowercase uppercase character
  */
 export function hasLowerCase(pw: string): boolean {
-  const matchedChars = pw.match(/[a-z]/g);
-  if (matchedChars) {
-    return matchedChars.length > 0;
-  } else {
-    return false;
-  }
+  return !!pw.match(/[a-z]/g);
 }
 
 /**
@@ -106,16 +144,37 @@ export function hasSymbols(pw: string): boolean {
   }
 }
 
+export function hasDateOfMonth(pw: string): boolean {
+  return pw.match(/0[1-9]|1[012]\W?0[1-9]|1[012]/gm) ? true : false;
+}
+
 /**
  *
  * @param pw
  * @returns
  */
 export function hasYear(pw: string): boolean {
-  const matchedChars = pw.match(/(?:19\d{2}|20\d{2})/g);
-  if (matchedChars) {
-    return matchedChars.length > 0;
-  } else {
-    return false;
-  }
+  return pw.match(/(?:19\d{2}|20\d{2})/g) ? true : false;
+}
+
+/**
+ *
+ * @param pw
+ * @returns
+ */
+export function hasSpecialChars(pw: string): boolean {
+  return pw.match(/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g) ? true : false;
+}
+
+export function hasAccents(pw: string): boolean {
+  return pw.match(/[À-ÿ]+/g) ? true : false;
+}
+
+/**
+ *
+ * @param pw
+ * @returns
+ */
+export function hasEmoji(pw: string): boolean {
+  return emoji.hasEmoji(pw);
 }

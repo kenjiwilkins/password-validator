@@ -1,4 +1,10 @@
-import { isLongEnough, hasLowerCase, hasUpperCase, hasNumber } from "../index";
+import {
+  isLongEnough,
+  hasLowerCase,
+  hasUpperCase,
+  hasNumber,
+  hasDateOfMonth,
+} from "../index";
 
 function generatePw(length: number): string {
   var result = "";
@@ -30,4 +36,9 @@ test("hasUpperCase function", () => {
 test("hasNumber function", () => {
   expect(hasNumber("WEROIUFDS")).toBeFalsy();
   expect(hasNumber("8feuisfah4")).toBeTruthy();
+});
+
+test("hasDateOfMonth function", () => {
+  expect(hasDateOfMonth("Tommy0503")).toBeTruthy();
+  expect(hasDateOfMonth("TommyZeroFiveZeroThree")).toBeFalsy();
 });
