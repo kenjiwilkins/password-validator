@@ -1,20 +1,10 @@
 version: 2.1
-
-orbs:
-  node: circleci/node@5.0.2
-
-workflows:
-  example-workflow:
-    jobs:
-      - restore_cache:
-          name: Yarn パッケージのキャッシュの復元
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          name: 依存関係のインストール
-          command: yarn install --immutable
-      - save_cache:
-          name: Yarn パッケージのキャッシュの保存
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+jobs:
+  build:
+    docker:
+      - image: node:7.10.0
+    working_directory: ~/app
+    steps:
+      - checkout
+      - run: yarn
+      - run: yarn test
