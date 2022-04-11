@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
-  slack: circleci/slack@4.9.3
+  node: circleci/node@5.0.2
+  slack: circleci/slack@4.4.4
 jobs:
   build:
     docker:
@@ -11,3 +12,5 @@ jobs:
       - run: yarn
       - run: yarn lint
       - run: yarn test
+      - slack/on-hold:
+        channel: "github_notification"
