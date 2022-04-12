@@ -7,13 +7,13 @@ commands:
   notify_slack_pass:
     steps:
       - slack/notify:
-        event: pass
-        template: basic_success_1
+          event: pass
+          template: basic_success_1
   notify_slack_fail:
     steps:
       - slack/notify:
-        event: fail
-        template: basic_fail_1
+          event: fail
+          template: basic_fail_1
 
 jobs:
   build:
